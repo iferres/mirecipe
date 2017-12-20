@@ -20,3 +20,11 @@ summary.prokka <- function(object){
 
 # #Set S4 Method
 # setMethod('summary', 'prokka', summary.prokka)
+
+
+
+summary.roary <- function(object){
+  
+  slot(object, 'stats')
+  
+}
