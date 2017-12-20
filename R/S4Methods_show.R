@@ -26,3 +26,25 @@ setMethod('show',
             }
           }
 )
+
+
+
+# roary
+
+#' @export
+setMethod('show',
+          'roary',
+          function(object){
+            cat('An object of class "roary"\n')
+            x <- object@in.files
+            p <- paste('Pangenome of', length(x), 'genomes:\n ')
+            cat(p)
+            if(length(x)>4){
+              cat(x[1:2], sep = '\n ')
+              cat(' ...\n ')
+              cat(rev(x)[1])
+            }else{
+              cat(x, sep = '\n ')
+            }
+          }
+)
