@@ -53,7 +53,7 @@ prokka <- function(in.files,
     
   }
   
-  dout <- paste0(out.dir, '/prokka_', prefix, '/')
+  dout <- paste0(out.dir, '/', prefix, '_prokka/')
   
   if(!dir.exists(dout)){
     dir.create(dout)

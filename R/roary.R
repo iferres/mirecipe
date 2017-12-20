@@ -62,7 +62,7 @@ roary <- function(prokka,
     
   }
   
-  dout <- paste0(out.dir, '/roary_', prefix)
+  dout <- paste0(out.dir, '/', prefix, '_roary')
   
   # if(!dir.exists(dout)){
   #   dir.create(dout)
