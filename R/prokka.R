@@ -18,7 +18,10 @@ setClass('prokka',
 
 
 #' @export
-prokka <- function(in.files, prefix, cpus = 1L){
+prokka <- function(in.files, 
+                   out.dir = '.', 
+                   prefix, 
+                   cpus = 1L){
   
   if (Sys.which('prokka')==""){
     
@@ -40,13 +43,15 @@ prokka <- function(in.files, prefix, cpus = 1L){
   
   in.files <- normalizePath(in.files)
   
+  out.dir <- normalizePath(out.dir)
+  
   if (missing(prefix)){
     
     prefix <- format(Sys.time(), "%b%d%H%M%S")
-  
+    
   }
   
-  dout <- paste0('prokka_', prefix, '/')
+  dout <- paste0(out.dir, '/prokka_', prefix, '/')
   
   if(!dir.exists(dout)){
     dir.create(dout)
@@ -66,11 +71,11 @@ prokka <- function(in.files, prefix, cpus = 1L){
   pb <- txtProgressBar(min = 0, max = length(in.files), style = 3)
   for (i in seq_along(in.files)){
     
-    outdir <- paste0(dout, sub('[.]\\w+$', '', in.files[i]))
-    
-    px <- rev(strsplit(normalizePath(in.files[i]), '/')[[1]])[1]
+    fn <- rev(strsplit(in.files[i], '/')[[1]])[1]
     
     px <- sub('[.]\\w+$', '', px)
+    
+    outdir <- paste0(dout, '/', px)
     
     run[i] <- paste0('prokka --quiet --outdir ',outdir, 
                      ' --prefix ',px,
@@ -91,7 +96,7 @@ prokka <- function(in.files, prefix, cpus = 1L){
     sp <- sapply(rl, strsplit, ': ')
     stats[[i]] <- as.integer(sapply(sp, '[', 2L))
     names(stats[[i]]) <- sapply(sp, '[', 1L)
-
+    
     setTxtProgressBar(pb, i)
   }
   close(pb)
