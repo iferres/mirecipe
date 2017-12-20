@@ -7,7 +7,7 @@
 # setMethod("plot", "foo", plot.foo)
 
 
-
+#' @export
 plot.roary <- function(roary,
                        hclustfun = hclust,
                        distfun = dist,
