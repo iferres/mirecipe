@@ -3,7 +3,15 @@ setClass('prokka',
                       out.files = 'list',
                       stats = 'data.frame',
                       call = 'character', 
-                      prefix = 'character'))
+                      prefix = 'character'), 
+         validity = function(object){
+           val <- sapply(object@out.files, 
+                         sapply, 
+                         file.exists, 
+                         simplify = F)
+           all(sapply(val, all))
+         }
+)
 
 
 
@@ -29,6 +37,8 @@ prokka <- function(in.files, prefix, cpus = 1L){
     stop("cannot open the connection. One or more files doesn't exist.")
     
   }
+  
+  in.files <- normalizePath(in.files)
   
   if (missing(prefix)){
     
@@ -72,6 +82,8 @@ prokka <- function(in.files, prefix, cpus = 1L){
     
     out.files[[i]] <- list.files(path = outdir, 
                                  full.names = TRUE)
+    
+    out.files[[i]] <- normalizePath(out.files[[i]])
     
     #Stats
     gp <- grep('[.]txt$', out.files[[i]], value = TRUE)
