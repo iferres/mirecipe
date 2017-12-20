@@ -7,15 +7,16 @@
 # setMethod("summary", "foo", summary.foo)
 
 #Just once!
-setGeneric('summary')
+# setGeneric('summary')
 
 
 #Set S3 Method
+#' @export
 summary.prokka <- function(object){
   
   object@stats
   
 }
 
-#Set S4 Method
-setMethod('summary', 'prokka', summary.prokka)
+# #Set S4 Method
+# setMethod('summary', 'prokka', summary.prokka)

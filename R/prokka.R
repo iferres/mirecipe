@@ -1,3 +1,4 @@
+#' @export
 setClass('prokka', 
          slots = list(in.files = 'character',
                       out.files = 'list',
@@ -16,7 +17,8 @@ setClass('prokka',
 
 
 
-
+#' @importFrom utils setTxtProgressBar txtProgressBar
+#' @importFrom methods new
 #' @export
 prokka <- function(in.files, 
                    out.dir = '.', 

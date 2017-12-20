@@ -8,6 +8,8 @@
 # )
 
 # prokka
+
+#' @export
 setMethod('show',
           'prokka',
           function(object){
