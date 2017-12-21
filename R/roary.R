@@ -16,8 +16,8 @@ setClass('roary',
 )
 
 
-
-
+#' @importFrom methods new
+#' @export
 roary <- function(prokka, 
                   out.dir = '.', 
                   prefix, 

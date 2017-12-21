@@ -75,7 +75,7 @@ prokka <- function(in.files,
     
     fn <- rev(strsplit(in.files[i], '/')[[1]])[1]
     
-    px <- sub('[.]\\w+$', '', px)
+    px <- sub('[.]\\w+$', '', fn)
     
     outdir <- paste0(dout, '/', px)
     
