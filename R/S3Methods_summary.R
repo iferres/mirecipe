@@ -22,7 +22,7 @@ summary.prokka <- function(object){
 # setMethod('summary', 'prokka', summary.prokka)
 
 
-
+#' @export
 summary.roary <- function(object){
   
   slot(object, 'stats')
