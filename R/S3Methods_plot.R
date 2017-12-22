@@ -114,7 +114,7 @@ plot.roary <- function(roary,
 #' @export
 plot.progressiveMauve <- function(progressiveMauve, ...){
   
-  x <- splot(progressiveMauve, 'stats')
+  x <- slot(progressiveMauve, 'stats')
   heatmap.2(x, trace = 'n', ...)
   
 }
