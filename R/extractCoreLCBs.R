@@ -73,7 +73,7 @@ extractCoreLCBs <- function(progressiveMauve,
     rr <- rl[x[1]:x[2]]
     gp <- grep('^>', rr)
     ln <- length(gp)
-    nch <- nchar(paste0(rr[2L:(ifelse(ln>1L, gp[2L]-1, length(rr)-1L))],
+    nch <- nchar(paste0(rr[2L:(ifelse(ln>1L, gp[2L]-1, length(rr)))],
                         collapse = ''))
     
     vs <- vapply(1:length(gp), function(y){
