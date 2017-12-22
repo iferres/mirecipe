@@ -2,10 +2,9 @@
 setClass('progressiveMauve', 
          slots = list(in.files = 'character',
                       out.files = 'list',
-                      stats = 'data.frame',
+                      stats = 'matrix',
                       call = 'character', 
-                      prefix = 'character',
-                      shared.percent = 'matrix'), 
+                      prefix = 'character'), 
          validity = function(object){
            val <- sapply(slot(object, 'out.files'), 
                          sapply, 
@@ -87,15 +86,14 @@ progressiveMauve <- function(prokka,
              value = TRUE)
   bk <- read.csv(gp, sep = '\t', header = TRUE)
   
-  m <- pcSharedGenome(prokka = prokka, backbone = bk)
+  stats <- pcSharedGenome(prokka = prokka, backbone = bk)
   
   res <- new('progressiveMauve', 
              in.files = in.files, 
              out.files = out.files, 
              stats = stats, 
              call = run,
-             prefix = prefix, 
-             shared.percent = m)
+             prefix = prefix)
   
 }
 
