@@ -28,3 +28,21 @@ summary.roary <- function(object){
   slot(object, 'stats')
   
 }
+
+#' @export
+summary.progressiveMauve <- function(object){
+  
+  slot(object, 'stats')
+  
+}
+
+
+# print.summary.progressiveMauve <- function(object){
+#   
+#   cat('Percentage of shared genome between rows and columns.\n')
+#   object
+#   
+# }
+
+
+
