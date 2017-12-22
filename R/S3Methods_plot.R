@@ -108,3 +108,13 @@ plot.roary <- function(roary,
   
   
 }
+
+
+#' @importFrom gplots heatmap.2
+#' @export
+plot.progressiveMauve <- function(progressiveMauve, ...){
+  
+  x <- splot(progressiveMauve, 'stats')
+  heatmap.2(x, trace = 'n', ...)
+  
+}
