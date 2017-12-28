@@ -14,7 +14,7 @@
 #' @export
 summary.prokka <- function(object){
   
-  object@stats
+  slot(object, 'stats')
   
 }
 
