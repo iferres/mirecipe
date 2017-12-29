@@ -1,24 +1,6 @@
-#' @export
-setClass('prokka', 
-         slots = list(in.files = 'character',
-                      out.files = 'list',
-                      stats = 'data.frame',
-                      call = 'character', 
-                      prefix = 'character'), 
-         validity = function(object){
-           val <- sapply(object@out.files, 
-                         sapply, 
-                         file.exists, 
-                         simplify = F)
-           all(sapply(val, all))
-         }
-)
-
-
 
 
 #' @importFrom utils setTxtProgressBar txtProgressBar
-#' @importFrom methods new
 #' @export
 prokka <- function(in.files, 
                    out.dir = '.', 
@@ -107,13 +89,12 @@ prokka <- function(in.files,
   # Stats
   stats <- as.data.frame(do.call(rbind, stats))
   
-  res <- new('prokka', 
-             in.files = in.files,
-             out.files = out.files,
-             stats = stats,
-             call = run, 
-             prefix = prefix)
   
-  return(res)
+  #Return
+  .Prokka(in.files = in.files,
+          out.files = out.files,
+          stats = stats,
+          call = run, 
+          prefix = prefix)
   
 }

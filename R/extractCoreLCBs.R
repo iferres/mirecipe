@@ -1,18 +1,3 @@
-#' @export
-setClass('coreGenome', 
-         slots = list(in.files = 'character',
-                      out.files = 'list',
-                      stats = 'matrix',
-                      call = 'character', 
-                      prefix = 'character'), 
-         validity = function(object){
-           val <- sapply(slot(object, 'out.files'), 
-                         sapply, 
-                         file.exists, 
-                         simplify = F)
-           all(sapply(val, all))
-         }
-)
 
 
 #' @export
@@ -188,12 +173,13 @@ extractCoreLCBs <- function(progressiveMauve,
   call <- capture.output(match.call())
   
   
-  new('coreGenome',
-      in.files = in.files, 
-      out.files = out.files, 
-      stats = stats,
-      call = call, 
-      prefix = prefix)
+  .CoreGenome(in.files = in.files, 
+              out.files = out.files,
+              stats = stats,
+              call = call,
+              prefix = prefix)
+  
+
 }
 
 

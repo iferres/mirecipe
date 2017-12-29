@@ -1,18 +1,4 @@
-#' @export
-setClass('progressiveMauve', 
-         slots = list(in.files = 'character',
-                      out.files = 'list',
-                      stats = 'matrix',
-                      call = 'character', 
-                      prefix = 'character'), 
-         validity = function(object){
-           val <- sapply(slot(object, 'out.files'), 
-                         sapply, 
-                         file.exists, 
-                         simplify = F)
-           all(sapply(val, all))
-         }
-)
+
 
 
 #' @importFrom methods new

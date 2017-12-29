@@ -1,19 +1,4 @@
-#' @export
-setClass('roary', 
-         slots = list(in.files = 'character',
-                      out.files = 'list',
-                      stats = 'data.frame',
-                      call = 'character', 
-                      prefix = 'character',
-                      panmatrix = 'matrix'), 
-         validity = function(object){
-           val <- sapply(slot(object, 'out.files'), 
-                         sapply, 
-                         file.exists, 
-                         simplify = F)
-           all(sapply(val, all))
-         }
-)
+
 
 
 #' @importFrom methods new
