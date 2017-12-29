@@ -7,42 +7,35 @@
 # setMethod("summary", "foo", summary.foo)
 
 #Just once!
-# setGeneric('summary')
+if (!isGeneric('summary'))
+  setGeneric('summary', function(object, ...)
+    standardGeneric('summary'))
 
 
-#Set S3 Method
-#' @export
-summary.prokka <- function(object){
+
+summary.prokka <- function(object, ...){
   
   slot(object, 'stats')
   
 }
-
-# #Set S4 Method
-# setMethod('summary', 'prokka', summary.prokka)
+setMethod('summary', 'prokka', summary.prokka)
 
 
-#' @export
-summary.roary <- function(object){
+summary.roary <- function(object, ...){
   
   slot(object, 'stats')
   
 }
+setMethod('summary', 'roary', summary.roary)
 
-#' @export
-summary.progressiveMauve <- function(object){
+
+
+summary.progressiveMauve <- function(object, ...){
   
   slot(object, 'stats')
   
 }
-
-
-# print.summary.progressiveMauve <- function(object){
-#   
-#   cat('Percentage of shared genome between rows and columns.\n')
-#   object
-#   
-# }
+setMethod('summary', 'progressiveMauve', summary.progressiveMauve)
 
 
 

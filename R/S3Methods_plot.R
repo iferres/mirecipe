@@ -6,9 +6,15 @@
 # }
 # setMethod("plot", "foo", plot.foo)
 
+if (!isGeneric('plot'))
+  setGeneric('plot', function(x, y, ...)
+    standardGeneric('plot'))
+
+
+
 
 #' @export
-plot.roary <- function(roary,
+plot.roary <- function(x,
                        hclustfun = hclust,
                        distfun = dist,
                        edgePar = list(lwd = 1.5),
@@ -19,26 +25,26 @@ plot.roary <- function(roary,
                        cexRow = 0.5,
                        ...){
   
-  cl <- class(roary)
-  if (cl != 'roary' | attr(cl, 'package') != 'mirecipe'){
-    stop('Object "roary" is not of class "roary" (mirecipe package).')
-  }
+  # cl <- class(x)
+  # if (cl != 'roary' | attr(cl, 'package') != 'mirecipe'){
+  #   stop('Object "roary" is not of class "roary" (mirecipe package).')
+  # }
+  # 
+  # cl <- class(x)
+  # if (cl != 'roary'){
+  #   stop('Object "roary" is not of class "roary" (mirecipe package).')
+  # }
   
-  cl <- class(roary)
-  if (cl != 'roary'){
-    stop('Object "roary" is not of class "roary" (mirecipe package).')
-  }
   
+  y <- slot(roary, 'panmatrix')
   
-  x <- slot(roary, 'panmatrix')
-  
-  x[which(x>1L)] <- 1L
+  y[which(y>1L)] <- 1L
   
   ### Distance and clustering ###
-  dd <- distfun(x)
+  dd <- distfun(y)
   hc <- hclustfun(dd)
   
-  mm <- x[, order(colSums(x), decreasing = T)]
+  mm <- y[, order(colSums(y), decreasing = T)]
   mm <- as.matrix(mm)
   mm <- mm[hc$order, ]
   
@@ -108,13 +114,20 @@ plot.roary <- function(roary,
   
   
 }
+setMethod("plot", signature(x = "roary", y = "missing"), 
+          function(x, y, ...) plot.roary(x, ...))
+
 
 
 #' @importFrom gplots heatmap.2
-#' @export
-plot.progressiveMauve <- function(progressiveMauve, ...){
+plot.progressiveMauve <- function(x, ...){
   
-  x <- slot(progressiveMauve, 'stats')
-  heatmap.2(x, trace = 'n', ...)
+  ss <- slot(x, 'stats')
+  heatmap.2(ss, trace = 'n', ...)
   
 }
+setMethod("plot", signature(x = "roary", y = "missing"), 
+          function(x, y, ...) plot.roary(x, ...))
+
+
+
