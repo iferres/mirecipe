@@ -46,14 +46,14 @@
                     
                     validity = function(object){
                       
-                      exts <- c("err", "faa", "ffn", "fna",
-                                "fsa", "gbk", "gff", "log",
-                                "sqn", "tbl", "txt")
+                      esp <- c("err", "faa", "ffn", "fna",
+                               "fsa", "gbk", "gff", "log",
+                               "sqn", "tbl", "txt")
                       
                       #Check if all expected file extensions exists in object
                       obj <- sapply(object@out.files, function(x){
                         ss <- sapply(strsplit(x, '[.]'), rev, simplify = FALSE)
-                        all(sapply(ss, '[', 1) %in% exts)
+                        all(sapply(ss, '[', 1) %in% esp)
                       })
                       
                       #Check if all object files exists in specified path
@@ -80,12 +80,37 @@
                    
                    validity = function(object){
                      
-                     val <- sapply(slot(object, 'out.files'),
-                                   sapply,
-                                   file.exists, 
-                                   simplify = F)
+                     esp <- c("accessory_binary_genes.fa", 
+                              "accessory_binary_genes.fa.newick", 
+                              "accessory_graph.dot", 
+                              "accessory.header.embl", 
+                              "accessory.tab", 
+                              "blast_identity_frequency.Rtab", 
+                              "clustered_proteins", 
+                              "core_accessory_graph.dot", 
+                              "core_accessory.header.embl",
+                              "core_accessory.tab",
+                              "gene_presence_absence.csv", 
+                              "gene_presence_absence.Rtab", 
+                              "number_of_conserved_genes.Rtab", 
+                              "number_of_genes_in_pan_genome.Rtab", 
+                              "number_of_new_genes.Rtab", 
+                              "number_of_unique_genes.Rtab", 
+                              "summary_statistics.txt")
                      
-                     all(sapply(val, all))
+                     #Check if all expected file extensions exists in object
+                     obj <- sapply(object@out.files[[1]], function(x){
+                       ss <- sapply(strsplit(x, '/'), rev, simplify = FALSE)
+                       sapply(ss, '[', 1) %in% esp
+                     })
+                     
+                     #Check if all object files exists in specified path
+                     fex <- vapply(unlist(object@out.files),
+                                   file.exists, 
+                                   FUN.VALUE = NA)
+                     
+                     #Return validity
+                     all(obj) & all(fex)
                      
                    }
 )
