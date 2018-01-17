@@ -72,3 +72,17 @@ setMethod('show',
           }
 )
 
+
+# Core genome
+
+#' @export
+setMethod('show',
+          'coreGenome',
+          function(object){
+            cat('An object of class "coreGenome"\n')
+            x <- object@in.files
+            p <- paste('Core-genome extracted from the following alignment:\n')
+            cat(p)
+            cat(x, sep = '\n')
+          }
+)

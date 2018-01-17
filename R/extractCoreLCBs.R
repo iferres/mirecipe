@@ -14,12 +14,6 @@ extractCoreLCBs <- function(progressiveMauve,
   if (cl != 'progressiveMauve' | attr(cl, 'package') != 'mirecipe'){
     stop('Object "progressiveMauve" is not of class "progressiveMauve" (mirecipe package).')
   }
-  # 
-  # if( suppressWarnings(is.na(as.integer(cpus))) ){ 
-  #   
-  #   stop('First argument (cpus) is not an integer.\n')
-  #   
-  # }
   
   in.files <- vapply(slot(progressiveMauve, 'out.files'), function(x){
     grep('[.]xmfa$', x, value = TRUE)
@@ -45,16 +39,50 @@ extractCoreLCBs <- function(progressiveMauve,
   
   if(!dir.exists(dout)){
     dir.create(dout)
+  }else{
+    unlink(dout, recursive = TRUE)
+    dir.create(dout)
   }
   
-  # 
-  # oal <- paste0(dout, '/alignment.xmfa')
-  # 
-  # 
-  # xmfa <- grep('xmfa$', slot(progressiveMauve, 'out.files')[[1]], value = TRUE)
-  # 
+  
+  run <- buildCoreGenome(in.files = in.files,
+                         dout = dout,
+                         msi = msi, 
+                         pco = pco, 
+                         pal = pal,
+                         nco = length(progressiveMauve@in.files))
+  
+  out.files <- vector('list', 1L)
+  
+  out.files[[1L]] <- normalizePath(list.files(path = dout, 
+                                              full.names = TRUE))
+  
+  
+  .CoreGenome(in.files = in.files, 
+              out.files = out.files,
+              # stats = run$stats,
+              call = run$call,
+              prefix = prefix)
+  
+
+}
+
+
+buildCoreGenome <- function(in.files,
+                            dout,
+                            prefix,
+                            msi=500L,
+                            pco=0.1, #Less is less gaps
+                            pal=0.9, #More is less gaps
+                            nco=length(progressiveMauve@in.files)){
+  
+  
   ncom <- (nco * 2L) + 2L
   rl <- readLines(in.files)
+  
+  na <- rl[2*1:((ncom/2)-1)]
+  na <- sapply(lapply(strsplit(na, '/'), rev), '[', 1)
+  
   rl <- rl[-(1L:ncom)]
   
   #index of chunks (blocks) of sequences in xmfa
@@ -154,10 +182,10 @@ extractCoreLCBs <- function(progressiveMauve,
   
   #Concatenate blocks
   
-  spl <- strsplit(progressiveMauve@in.files, '/')
-  he <- sub('[.]\\w+$','',sapply(spl, function(y){rev(y)[1]}))
+  spl <- strsplit(in.files, '/')
+  # he <- sub('[.]\\w+$','',sapply(spl, function(y){rev(y)[1]}))
   vapply(1:length(tmps), function(y){
-    cat(paste0('>',he[y], '\n'), file = out, append = TRUE)
+    cat(paste0('>',na[y], '\n'), file = out, append = TRUE)
     file.append(out, tmps[y])
     cat('\n', file = out, append = TRUE)
     TRUE
@@ -165,27 +193,10 @@ extractCoreLCBs <- function(progressiveMauve,
   
   file.remove(tmps)
   
-  out.files <- vector('list', 1L)
-  
-  out.files[[1L]] <- normalizePath(list.files(path = dout, 
-                                              full.names = TRUE))
-  
   call <- capture.output(match.call())
   
   
-  .CoreGenome(in.files = in.files, 
-              out.files = out.files,
-              stats = stats,
-              call = call,
-              prefix = prefix)
   
-
+  return(list(call = call))
 }
-
-
-
-
-
-
-
 

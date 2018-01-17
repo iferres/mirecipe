@@ -98,7 +98,7 @@
                               "number_of_unique_genes.Rtab", 
                               "summary_statistics.txt")
                      
-                     #Check if all expected file extensions exists in object
+                     #Check if all expected files exists in object
                      obj <- sapply(object@out.files[[1]], function(x){
                        ss <- sapply(strsplit(x, '/'), rev, simplify = FALSE)
                        sapply(ss, '[', 1) %in% esp
@@ -126,12 +126,24 @@
                                            prefix = 'character'),
                               validity = function(object){
                                 
-                                val <- sapply(slot(object, 'out.files'),
-                                              sapply,
-                                              file.exists,
-                                              simplify = F)
+                                esp <- c("alignment.xmfa", 
+                                         "alignment.xmfa.backbone", 
+                                         "alignment.xmfa.bbcols")
                                 
-                                all(sapply(val, all))
+                                #Check if all expected files exists in object
+                                obj <- sapply(object@out.files[[1]], function(x){
+                                  ss <- sapply(strsplit(x, '/'), rev, simplify = FALSE)
+                                  sapply(ss, '[', 1) %in% esp
+                                })
+                                
+                                #Check if all object files exists in specified path
+                                fex <- vapply(unlist(object@out.files),
+                                              file.exists, 
+                                              FUN.VALUE = NA)
+                                
+                                #Return validity
+                                all(obj) & all(fex)
+                                
                                 
                               }
 )
@@ -146,10 +158,71 @@
                                      call = 'character', 
                                      prefix = 'character'), 
                         validity = function(object){
-                          val <- sapply(slot(object, 'out.files'), 
-                                        sapply, 
+                          
+                          esp <- c("coreAliCoord.txt",
+                                   "coreGenomeAlignment.fasta")
+                          
+                          #Check if all expected files exists in object
+                          obj <- sapply(object@out.files[[1]], function(x){
+                            ss <- sapply(strsplit(x, '/'), rev, simplify = FALSE)
+                            sapply(ss, '[', 1) %in% esp
+                          })
+                          
+                          #Check if all object files exists in specified path
+                          fex <- vapply(unlist(object@out.files),
                                         file.exists, 
-                                        simplify = F)
-                          all(sapply(val, all))
+                                        FUN.VALUE = NA)
+                          
+                          #Return validity
+                          all(obj) & all(fex)
                         }
 )
+
+
+
+
+#' @export
+.Gubbins <- setClass('gubbins', 
+                      slots = list(in.files = 'character',
+                                   out.files = 'list',
+                                   stats = 'matrix',
+                                   call = 'character', 
+                                   prefix = 'character'), 
+                      validity = function(object){
+                        
+                        esp <- c(".recombination_predictions.embl",
+                                 ".recombination_predictions.gff",
+                                 ".branch_base_reconstruction.embl",
+                                 ".summary_of_snp_distribution.vcf",
+                                 ".per_branch_statistics.csv",
+                                 ".filtered_polymorphic_sites.fasta",
+                                 ".filtered_polymorphic_sites.phylip",
+                                 ".final_tree.tre",
+                                 ".node_labelled.final_tree.tre")
+                          
+                        #Check if all expected files exists in object
+                        obj <- sapply(object@out.files[[1]], function(x){
+                          ss <- sapply(strsplit(x, '/'), rev, simplify = FALSE)
+                          paste0(prefix, sapply(ss, '[', 1)) %in% esp
+                        })
+                          
+                        #Check if all object files exists in specified path
+                        fex <- vapply(unlist(object@out.files),
+                                      file.exists, 
+                                      FUN.VALUE = NA)
+                          
+                        #Return validity
+                        all(obj) & all(fex)
+                      }
+)
+
+
+
+
+
+
+
+
+
+
+
