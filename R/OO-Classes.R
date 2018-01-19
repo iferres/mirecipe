@@ -203,7 +203,7 @@
                         #Check if all expected files exists in object
                         obj <- sapply(object@out.files[[1]], function(x){
                           ss <- sapply(strsplit(x, '/'), rev, simplify = FALSE)
-                          paste0(prefix, sapply(ss, '[', 1)) %in% esp
+                          sapply(ss, '[', 1) %in% paste0(object@prefix, esp)
                         })
                           
                         #Check if all object files exists in specified path

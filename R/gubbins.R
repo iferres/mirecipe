@@ -50,11 +50,17 @@ gubbins <- function(coreGenome,
   }
   
   
-  px <- paste0(dout, '/', prefix)
+  # px <- paste0(dout, '/', prefix)
+  
+  #Workaround for putting out files in specified folder..
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
+  setwd(dout)
   
   run <- paste0('run_gubbins.py -t fastree ', 
                 '--threads ', cpus, ' ',
-                '--prefix ', px, ' ',
+                '--prefix ', prefix, ' ',
                 in.files)
   
   system(run)
@@ -70,7 +76,7 @@ gubbins <- function(coreGenome,
   
   .Gubbins(in.files = in.files, 
            out.files = out.files, 
-           stats = stats, 
+           # stats = stats, 
            call = run, 
            prefix = prefix)
   
