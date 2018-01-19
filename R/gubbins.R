@@ -3,7 +3,8 @@
 gubbins <- function(coreGenome, 
                     out.dir = '.',
                     prefix,
-                    cpus = 1L){
+                    cpus = 1L,
+                    tree_builder = 'raxml'){
   
   if (Sys.which('run_gubbins.py')==""){
     
@@ -58,7 +59,7 @@ gubbins <- function(coreGenome,
   
   setwd(dout)
   
-  run <- paste0('run_gubbins.py -t fastree ', 
+  run <- paste0('run_gubbins.py -t ', tree_builder, ' ', 
                 '--threads ', cpus, ' ',
                 '--prefix ', prefix, ' ',
                 in.files)

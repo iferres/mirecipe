@@ -86,3 +86,20 @@ setMethod('show',
             cat(x, sep = '\n')
           }
 )
+
+
+
+
+# Gubbins
+
+#' @export
+setMethod('show',
+          'gubbins',
+          function(object){
+            cat('An object of class "gubbins"\n')
+            x <- object@in.files
+            p <- paste('Recombination detected from the following alignment:\n')
+            cat(p)
+            cat(x, sep = '\n')
+          }
+)

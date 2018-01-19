@@ -199,11 +199,16 @@
                                  ".filtered_polymorphic_sites.phylip",
                                  ".final_tree.tre",
                                  ".node_labelled.final_tree.tre")
+                        
+                        esp <- paste0(object@prefix, esp)
+                        
+                        sjt <- paste0(basename(object@in.files), '.seq.joint.txt')
                           
+                        esp <- c(esp, sjt)
+                        
                         #Check if all expected files exists in object
                         obj <- sapply(object@out.files[[1]], function(x){
-                          ss <- sapply(strsplit(x, '/'), rev, simplify = FALSE)
-                          sapply(ss, '[', 1) %in% paste0(object@prefix, esp)
+                          basename(x) %in% esp
                         })
                           
                         #Check if all object files exists in specified path
