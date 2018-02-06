@@ -81,7 +81,7 @@ setMethod('show',
           function(object){
             cat('An object of class "coreGenome"\n')
             x <- object@in.files
-            p <- paste('Core-genome extracted from the following alignment:\n')
+            p <- paste('Core-genome extracted from the following alignment:\n ')
             cat(p)
             cat(x, sep = '\n')
           }
@@ -98,8 +98,30 @@ setMethod('show',
           function(object){
             cat('An object of class "gubbins"\n')
             x <- object@in.files
-            p <- paste('Recombination detected from the following alignment:\n')
+            p <- paste('Recombination detected from the following alignment:\n ')
             cat(p)
             cat(x, sep = '\n')
           }
 )
+
+
+
+# Core clusters
+
+#' @export
+setMethod('show',
+          'coreClusters', 
+          function(object){
+            cat('An object of class "coreClusters"\n')
+            x <- names(object@in.files$prokka)
+            p <- 'Core genome clusters of the following genomes:\n '
+            cat(p)
+            if(length(x)>4){
+              cat(x[1:2], sep = '\n ')
+              cat(' ...\n ')
+              cat(rev(x)[1])
+            }else{
+              cat(x, sep = '\n ')
+            }
+          })
+
