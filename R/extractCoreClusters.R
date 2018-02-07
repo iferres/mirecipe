@@ -71,12 +71,16 @@ extractCoreClusters <- function(prokka,
   
   if(!dir.exists(dout)){
     dir.create(dout)
+    dir.create(paste0(dout, '/proteins'))
+    dir.create(paste0(dout, '/genes'))
   }else{
     unlink(dout, recursive = TRUE)
     dir.create(dout)
+    dir.create(paste0(dout, '/proteins'))
+    dir.create(paste0(dout, '/genes'))
   }
   
-  out.files <- vector('list', 1L)
+
   
   lcbs <- grep('coreAliCoord.txt', in.files$coreGenome[[1]], value = TRUE)
   gffs <- sapply(in.files$prokka, function(x){grep('gff$', x, value = TRUE)})
@@ -116,8 +120,8 @@ extractCoreClusters <- function(prokka,
   
   out.files <- mclapply(names(clu), function(X){
     
-    fo <- paste0(dout,'/',X, '.faa')
-    fa <- paste0(dout,'/',X, '.ffn')
+    fo <- paste0(dout,'/proteins/',X, '.faa')
+    fa <- paste0(dout,'/genes/',X, '.ffn')
     
     write.fasta(faas[clu[[X]]], names = clu[[X]], file.out = fo, as.string = TRUE)
     write.fasta(ffns[clu[[X]]], names = clu[[X]], file.out = fa, as.string = TRUE)
@@ -128,6 +132,7 @@ extractCoreClusters <- function(prokka,
   out.files <- lapply(1:2, function(X){
     vapply(out.files, '[', X, FUN.VALUE = NA_character_)
     })
+  names(out.files) <- c('proteins', 'genes')
   
   call <- capture.output(match.call())
   

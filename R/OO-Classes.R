@@ -247,7 +247,27 @@
                           })
 
 
-
+.AlignedCoreClusters <- setClass('alignedCoreClusters',
+                                 slots = list(in.files = 'list',
+                                              out.files = 'list',
+                                              stats = 'matrix',
+                                              call = 'character',
+                                              prefix = 'character'),
+                                 validity = function(object){
+                                   
+                                   esp <- c('faa.ali$', 'ffn.ali$')
+                                   
+                                   obj <- sapply(1:2, function(x){
+                                     all(grepl(esp[x], object@out.files[[x]]))
+                                   })
+                                   
+                                   fex <- vapply(unlist(object@out.files),
+                                                 file.exists, 
+                                                 FUN.VALUE = NA)
+                                   
+                                   all(obj) & all(fex)
+                                   
+                                 })
 
 
 

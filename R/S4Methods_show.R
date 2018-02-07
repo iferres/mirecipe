@@ -125,3 +125,34 @@ setMethod('show',
             }
           })
 
+
+
+# Aligned core clusters
+
+#' @export
+setMethod('show',
+          'alignedCoreClusters', 
+          function(object){
+            cat('An object of class "alignedCoreClusters"\n')
+            x <- object@in.files$genes
+            p <- 'Aligned core clusters:\n '
+            cat(p)
+            if(length(x)>4){
+              cat(x[1:2], sep = '\n ')
+              cat(' ...\n ')
+              cat(rev(x)[1])
+            }else{
+              cat(x, sep = '\n ')
+            }
+          })
+
+
+
+
+
+
+
+
+
+
+
