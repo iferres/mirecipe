@@ -50,7 +50,9 @@ prokka <- function(in.files,
   names(run) <- in.files
   
   stats <- vector('list', ln)
-  names(stats) <- in.files
+  names(stats) <- basename(in.files)
+  vars <- c("contigs", "bases", "CDS", "tRNA", "tmRNA", "repeat_region")
+  
   
   pb <- txtProgressBar(min = 0, max = length(in.files), style = 3)
   for (i in seq_along(in.files)){
@@ -77,9 +79,11 @@ prokka <- function(in.files,
     #Stats
     gp <- grep('[.]txt$', out.files[[i]], value = TRUE)
     rl <- readLines(gp)[-1]
-    sp <- sapply(rl, strsplit, ': ')
-    stats[[i]] <- as.integer(sapply(sp, '[', 2L))
-    names(stats[[i]]) <- sapply(sp, '[', 1L)
+    sp <- strsplit(rl, ': ')
+    stats[[i]] <- sapply(vars, function(x){
+      gp <- grep(x, sp, fixed = T)
+      ifelse(length(gp)!=0, as.integer(sp[[gp]][2]), NA_integer_)
+    })
     
     setTxtProgressBar(pb, i)
   }
