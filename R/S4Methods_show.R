@@ -20,7 +20,7 @@ setMethod('show',
             if(length(x)>4){
               cat(x[1:2], sep = '\n ')
               cat(' ...\n ')
-              cat(rev(x)[1])
+              cat(rev(x)[1], sep = '\n')
             }else{
               cat(x, sep = '\n ')
             }
@@ -42,7 +42,7 @@ setMethod('show',
             if(length(x)>4){
               cat(x[1:2], sep = '\n ')
               cat(' ...\n ')
-              cat(rev(x)[1])
+              cat(rev(x)[1], sep = '\n')
             }else{
               cat(x, sep = '\n ')
             }
@@ -65,7 +65,7 @@ setMethod('show',
             if(length(x)>4){
               cat(x[1:2], sep = '\n ')
               cat(' ...\n ')
-              cat(rev(x)[1])
+              cat(rev(x)[1], sep = '\n')
             }else{
               cat(x, sep = '\n ')
             }
@@ -119,7 +119,7 @@ setMethod('show',
             if(length(x)>4){
               cat(x[1:2], sep = '\n ')
               cat(' ...\n ')
-              cat(rev(x)[1])
+              cat(rev(x)[1], sep = '\n')
             }else{
               cat(x, sep = '\n ')
             }
